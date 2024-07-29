@@ -1,0 +1,31 @@
+  {
+    "name": "Page Clock",
+    "version": "0.1",
+    "description": " Show time in 12 hour format at bottom right corner",
+    "permissions": ["storage"],
+    "browser_action": {
+          "default_icon": {
+            "16": "images/icons8-watch-64.png",
+            "24": "images/icons8-watch-64.png",
+            "32": "images/icons8-watch-64.png"
+          },
+          "default_title": "Page Clock",
+          "default_popup": "hello.html"
+        },
+    "icons": {
+      "16": "images/icons8-watch-64.png",
+      "32": "images/icons8-watch-64.png",
+      "48": "images/icons8-watch-64.png",
+      "128": "images/icons8-watch-64.png"
+    },
+    "content_scripts": [
+        {
+        "matches": [
+            "<all_urls>"
+            ],
+        "js": ["content.js"],
+        "run_at": "document_end"
+        }
+    ],
+    "manifest_version": 2
+  }
