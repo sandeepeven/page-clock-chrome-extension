@@ -4,14 +4,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Clock Timer</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <label class="switch">
-    show clock:
-    <input type="checkbox">
-  </label>
+  <div id="setting-container">
+    <p id="setting-text">
+      <b>Setting:</b>
+    </p>
+    <ul>
+      <li>
+        <input type="checkbox" name="24-hour" id="format">
+        Format 24 Hour
+      </li>
+      <li>
+        <input type="checkbox" name="show-background" id="show-background">
+        Show background
+      </li>
+      <li>
+        Position: <br/>
+        <select value="bottom-right" name="set-default-position">
+          <option>top-left</option>
+          <option>top-right</option>
+          <option>bottom-left</option>
+          <option>bottom-right</option>
+        </select>
+      </li>
+    </ul>
+  </div>
 </body>
 
 </html>
