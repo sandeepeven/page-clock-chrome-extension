@@ -6,14 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clock Timer</title>
   <link rel="stylesheet" href="styles.css">
+  <script type="text/javascript" src="popup.js"></script>
 </head>
 
 <body>
   <div id="setting-container">
-    <p id="setting-text">
-      <b>Setting:</b>
-    </p>
     <ul>
+      <li>
+        <input type="checkbox" name="fullscreen" id="set-fullscreen">
+        Visible only on Fullscreen
+      </li>
       <li>
         <input type="checkbox" name="24-hour" id="format">
         Format 24 Hour
@@ -23,12 +25,12 @@
         Show background
       </li>
       <li>
-        Position: <br/>
-        <select value="bottom-right" name="set-default-position">
+        Position
+        <select value="bottom-right" id="screen-position" name="set-default-position">
           <option>top-left</option>
           <option>top-right</option>
           <option>bottom-left</option>
-          <option>bottom-right</option>
+          <option selected>bottom-right</option>
         </select>
       </li>
     </ul>

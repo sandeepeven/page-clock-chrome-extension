@@ -1,4 +1,5 @@
 const clock_format = 12;
+
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === 'install') {
     // getting local storage $clock_format
@@ -14,10 +15,13 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   }
 });
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
-  console.log('sender id', sender.tab.windowId)
-  chrome.windows.get(sender.tab.windowId, function(chromeWindow) {
-    // "normal", "minimized", "maximized" or "fullscreen"
-    alert('Window is ' + chromeWindow.state);
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    const activeTab = tabs[0];
+    // Execute a content script to manipulate the DOM
+    chrome.tabs.sendMessage(activeTab.id, { action: message.action })
+    .then(result => console.log('result', result))
+    .catch(error => console.log('error', error));
+  });
+  sendResponse(true);
 });
-})

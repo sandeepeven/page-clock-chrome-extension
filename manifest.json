@@ -1,8 +1,8 @@
 {
 	"name": "Page Digital Clock",
 	"version": "0.1",
-	"description": "Show time in 12/24 hour format",
-	"permissions": ["storage"],
+	"description": "Show current time",
+	"permissions": ["storage", "activeTab", "scripting"],
 	"action": {
 		"default_icon": {
 			"16": "images/icons8-watch-64.png",

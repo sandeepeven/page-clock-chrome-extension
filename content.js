@@ -1,38 +1,88 @@
-let timeText = document.createElement('span')
+function isMaximized() {
+  return (window.screenTop === 0 && window.screenLeft === 0)
+}
+
+function updateLocalStorage (fullscreen = false) {
+  chrome.storage.local.set({ fullscreen }, function () {
+    console.log('stored fullscreen success');
+  })
+}
+
+window.addEventListener('resize', () => {
+    if (isMaximized()) {
+      updateLocalStorage(true);
+    } else {
+      console.log('window not maximised...updating local storage');
+      updateLocalStorage(false)
+    }
+})
+
+let timeText = document.createElement('span');
+let container = document.createElement('div');
+const containerId = "clock-container", timeTextId = "clock-text-display";
 
 const CreateInitialElement = () => {
-  timeText.setAttribute("id", "clock-text-display")
-  timeText.textContent = dayjs().format('hh:mm')
+  container.setAttribute("id", containerId);
+  container.appendChild(timeText);
+  timeText.setAttribute("id", timeTextId);
+  timeText.textContent = dayjs().format('hh:mm');
 }
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  const element = document.getElementById('clock-container');
+  switch (message.action) {
+    case "top-left":
+      element.style.top = "4%";
+      element.style.right = "93%";
+      break;
+    case 'top-right':
+      element.style.top = "4%";
+      element.style.right = "3%";
+      break;
+    case 'bottom-left':
+      element.style.top = "90%";
+      element.style.right = "93%";
+      break;
+    case 'bottom-right':
+      element.style.top = "90%";
+      element.style.right = "3%";
+      break;
+    default:
+      console.log("default case");
+      break;
+  }
+})
 
 const SetStyleElements = () => {
   timeText.setAttribute(
     "style",
     `
     font-size: 1.8em;
-    height: 50px;
-    width: 100px;
+    padding: 5px;
     cursor: default;
-    position: fixed;
-    right: 3%;
-    top: 90%;
     border-radius: 4px;
     color: #FFFFFF;
-    z-index: 99;
+    z-index: 9;
     background-color: #000000;
     text-align: center;
   `);
+  container.setAttribute(
+    "style",
+    `
+    position: fixed;
+    right: 3%;
+    top: 90%;
+    `
+  )
 }
 
 const InjectElementsPage = () => {
-  document.body.appendChild(timeText)
+  document.body.appendChild(container)
 }
 
 CreateInitialElement()
 SetStyleElements()
 InjectElementsPage()
-DragElement(document.getElementById('clock-text-display'))
-
 
 // interval runs at every minute for time updation
 let interval = setInterval(() => {
@@ -41,54 +91,3 @@ let interval = setInterval(() => {
   }
 }, 10000);
 
-
-// ["", "webkit", "moz", "ms"].forEach(
-//   prefix => document.addEventListener(prefix + "fullscreenchange", (event) => {
-//     if (!window.screenTop && !window.screenY) {
-//       console.log('not fullscreen')
-//     } else {
-//       console.log('fullscreen')
-//     }
-//   }, false)
-// );
-
-function DragElement (elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
-    // if present, the header is where you move the DIV from:
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {
-    // otherwise, move the DIV from anywhere inside the DIV:
-    elmnt.onmousedown = dragMouseDown;
-  }
-  function dragMouseDown (e) {
-    e = e || window.event;
-    e.preventDefault();
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag (e) {
-    e = e || window.event;
-    e.preventDefault();
-    // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
-
-  function closeDragElement () {
-    // stop moving when mouse button is released:
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
-
-}

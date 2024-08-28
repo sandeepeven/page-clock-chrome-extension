@@ -1,15 +1,16 @@
 #setting-container {
-  padding: 2px;
-  width: 240px;
   background-color: lightskyblue;
   border: 1px solid darkblue;
   border-radius: 4px;
   margin: 10px 4px;
 }
 
-#setting-text {
-  margin-left: 5px;
-  font-size: medium
+input[type=checkbox] {
+  margin-right: 10px;
+}
+
+select {
+  margin-left: 10px;
 }
 
 li {
