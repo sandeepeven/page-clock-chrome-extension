@@ -7,30 +7,31 @@
   <title>Clock Timer</title>
   <link rel="stylesheet" href="styles.css">
   <script type="text/javascript" src="popup.js"></script>
+  <script type="text/javascript" src="./js/helper.js"></script>
 </head>
 
 <body>
   <div id="setting-container">
     <ul>
       <li>
-        <input type="checkbox" name="fullscreen" id="set-fullscreen">
-        Visible only on Fullscreen
+        <input type="checkbox" id="fullscreen" name="fullscreen">
+        Visible only on fullscreen
       </li>
       <li>
-        <input type="checkbox" name="24-hour" id="format">
+        <input type="checkbox" id="format" name="24-hour">
         Format 24 Hour
       </li>
       <li>
-        <input type="checkbox" name="show-background" id="show-background">
+        <input type="checkbox" id="background" name="show-background">
         Show background
       </li>
       <li>
         Position
-        <select value="bottom-right" id="screen-position" name="set-default-position">
-          <option>top-left</option>
-          <option>top-right</option>
-          <option>bottom-left</option>
-          <option selected>bottom-right</option>
+        <select value="bottom-right" id="position" name="set-default-position">
+          <option value="top-left">top-left</option>
+          <option value="top-right">top-right</option>
+          <option value="bottom-left">bottom-left</option>
+          <option value="bottom-right" selected>bottom-right</option>
         </select>
       </li>
     </ul>

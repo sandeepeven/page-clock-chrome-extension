@@ -1,57 +1,65 @@
-function isMaximized() {
-  return (window.screenTop === 0 && window.screenLeft === 0)
-}
-
-function updateLocalStorage (fullscreen = false) {
-  chrome.storage.local.set({ fullscreen }, function () {
-    console.log('stored fullscreen success');
-  })
-}
-
 window.addEventListener('resize', () => {
-    if (isMaximized()) {
-      updateLocalStorage(true);
-    } else {
-      console.log('window not maximised...updating local storage');
-      updateLocalStorage(false)
-    }
+  if (isMaximized()) {
+    updateLocalStorage(true);
+  } else {
+    console.log('window not maximised...updating local storage');
+    updateLocalStorage(false)
+  }
 })
 
-let timeText = document.createElement('span');
-let container = document.createElement('div');
-const containerId = "clock-container", timeTextId = "clock-text-display";
-
-const CreateInitialElement = () => {
-  container.setAttribute("id", containerId);
-  container.appendChild(timeText);
-  timeText.setAttribute("id", timeTextId);
-  timeText.textContent = dayjs().format('hh:mm');
-}
-
+// events
+//  popup --> service-worker.js --> content.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  const element = document.getElementById('clock-container');
+  const container = document.getElementById('clock-container');
   switch (message.action) {
     case "top-left":
-      element.style.top = "4%";
-      element.style.right = "93%";
+      container.style.top = "4%";
+      container.style.right = "93%";
       break;
     case 'top-right':
-      element.style.top = "4%";
-      element.style.right = "3%";
+      container.style.top = "4%";
+      container.style.right = "3%";
       break;
     case 'bottom-left':
-      element.style.top = "90%";
-      element.style.right = "93%";
+      container.style.top = "90%";
+      container.style.right = "93%";
       break;
     case 'bottom-right':
-      element.style.top = "90%";
-      element.style.right = "3%";
+      container.style.top = "90%";
+      container.style.right = "3%";
+      break;
+    case 'set-defaults':
+      setDefaultValues();
+      break;
+    case 'position':
+    case 'format':
+    case 'background':
+    case 'fullscreen':
+      // const ele = document.getElementById(message.action);
+      // if (ele) {
+      //   getLocalStorage(message.action, (res) => {
+      //     if (res) {
+      //       if (message.action === 'position') {
+      //         ele.checked = res;
+      //         return
+      //       }
+      //       ele.value = res;
+      //     }
+      //   })
+      // }
       break;
     default:
       console.log("default case");
       break;
   }
-})
+});
+
+// Chrome Events
+// chrome.runtime.onSuspend.addListener(function () {
+//   if (interval) {
+//     clearInterval(interval);
+//   }
+// });
 
 const SetStyleElements = () => {
   timeText.setAttribute(
@@ -65,7 +73,7 @@ const SetStyleElements = () => {
     z-index: 9;
     background-color: #000000;
     text-align: center;
-  `);
+  `)
   container.setAttribute(
     "style",
     `
@@ -74,15 +82,26 @@ const SetStyleElements = () => {
     top: 90%;
     `
   )
+};
+
+const timeText = document.createElement('span');
+const container = document.createElement('div');
+const containerId = "clock-container", timeTextId = "clock-text-display";
+
+const CreateInitialElement = () => {
+  container.setAttribute("id", containerId);
+  container.appendChild(timeText);
+  timeText.setAttribute("id", timeTextId);
+  timeText.textContent = dayjs().format('hh:mm');
 }
 
 const InjectElementsPage = () => {
   document.body.appendChild(container)
 }
 
-CreateInitialElement()
-SetStyleElements()
-InjectElementsPage()
+CreateInitialElement();
+SetStyleElements();
+InjectElementsPage();
 
 // interval runs at every minute for time updation
 let interval = setInterval(() => {

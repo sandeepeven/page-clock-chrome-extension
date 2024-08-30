@@ -21,7 +21,7 @@
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
-			"js": ["lib/day.min.js", "content.js"],
+			"js": ["js/helper.js", "lib/day.min.js", "content.js"],
 			"run_at": "document_end"
 		}
 	],
