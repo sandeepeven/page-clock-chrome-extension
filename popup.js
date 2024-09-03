@@ -20,16 +20,26 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('format').addEventListener('click', (evt) => {
         console.log('format checked state', evt.target.checked);
         updateLocalStorage('format', evt.target.checked);
+        chrome.runtime.sendMessage({ action: 'format', value: evt.target.checked }, function (response) {
+            console.log("format-toggle", response);
+            updateLocalStorage('format', evt.target.checked);
+        });
     })
 
     document.getElementById('background').addEventListener('click', (evt) => {
         console.log('show-background', evt.target.checked);
-        updateLocalStorage('background', evt.target.checked);
+        chrome.runtime.sendMessage({ action: 'background', value: evt.target.checked }, function (response) {
+            console.log("background-toggle", response);
+            updateLocalStorage('background', evt.target.checked);
+        });
     })
 
     document.getElementById('fullscreen').addEventListener('click', (evt) => {
         console.log('set-fullscreen-background', evt.target.checked);
         updateLocalStorage('fullscreen', evt.target.checked);
+        chrome.runtime.sendMessage({ action: 'fullscreen', value: evt.target.checked }, function (response) {
+            console.log("fullscreen-toggle", response);
+        });
     })
 
     const select = document.getElementById('position');

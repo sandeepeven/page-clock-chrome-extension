@@ -1,5 +1,5 @@
 function isMaximized () {
-  return (window.screenTop === 0 && window.screenLeft === 0)
+  return (window.outerWidth === window.innerWidth && window.outerHeight === window.innerHeight)
 }
 
 function updateLocalStorage (key, value) {
@@ -20,9 +20,11 @@ function setDocumentPriorValues (elementId, value) {
 }
 
 function setDefaultValues () {
-  updateLocalStorage('format', 12);
+  getLocalStorage('format', (f) => {
+    updateLocalStorage('format', f ?? 12);
+  })
   updateLocalStorage('position', 'bottom-right');
-  updateLocalStorage('background', false);
+  updateLocalStorage('background', true);
   updateLocalStorage('fullscreen', false);
 }
 

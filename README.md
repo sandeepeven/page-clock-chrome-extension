@@ -2,6 +2,9 @@
 ---
 This extension is to show digital time on every webpage.
 
+## Watch
+[![Watch the video](https://raw.githubusercontent.com/sandeepeven/page-clock-chrome-extension/main/asset/video/thumbnail.png)](https://raw.githubusercontent.com/sandeepeven/page-clock-chrome-extension/main/asset/video/video.gif)
+
 ## Options
 ---
 1. Time in 24 hour or 12 hour format.
